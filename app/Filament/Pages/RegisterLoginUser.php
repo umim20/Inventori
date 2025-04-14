@@ -16,7 +16,7 @@ class RegisterLoginUser extends Page implements Forms\Contracts\HasForms
     public $nama;
     public $password;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-add';
+    protected static ?string $navigationIcon = 'heroicon-o-user-plus';
     protected static string $view = 'filament.pages.register-login-user';
     protected static ?string $navigationLabel = 'Register Login User';
 
