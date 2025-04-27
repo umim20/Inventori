@@ -13,7 +13,7 @@ class ListAdminPanel extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make()->label('Tambah User'), // ✅ Tombol tambah data
+       //     CreateAction::make()->label('Tambah User'), // ✅ Tombol tambah data
         ];
     }
 }

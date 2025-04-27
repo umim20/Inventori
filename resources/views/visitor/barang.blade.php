@@ -1,46 +1,47 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="bg-white shadow-md">
-    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-        <h2 class="text-xl font-bold">Inventori & Peminjaman Barang</h2>
-        <a href="{{ url('/') }}" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">← Kembali</a>
-    </div>
-</div>
 
+<!-- Flash Success -->
 @if(session('success'))
-<div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded m-4">
-    {{ session('success') }}
-</div>
+    <div class="container mx-auto px-6 mt-6">
+        <div class="bg-green-100 border border-green-400 text-green-800 px-4 py-3 rounded shadow">
+            {{ session('success') }}
+        </div>
+    </div>
 @endif
 
-<div class="container mx-auto px-4 py-8">
-    <h1 class="text-2xl font-bold mb-6">Daftar Barang</h1>
+<!-- Barang Section -->
+<div class="container mx-auto px-6 py-12">
+    <h1 class="text-3xl font-bold text-green-800 mb-8 text-center">Daftar Barang Tersedia</h1>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        @foreach ($barangs as $barang)
-            <div class="border rounded-lg shadow-md p-4 flex flex-col justify-between bg-white hover:shadow-lg transition">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        @forelse ($barangs as $barang)
+            <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition border-t-4 border-green-600 flex flex-col justify-between p-5">
                 <div>
-                    <h2 class="font-bold text-lg mb-2">{{ $barang->nama }}</h2>
-                    <p class="text-gray-600 mb-2">{{ $barang->deskripsi }}</p>
-                    <p class="text-sm text-gray-500 mb-4">Stok: {{ $barang->stok }}</p>
+                    <h2 class="text-lg font-bold text-green-700 mb-2">{{ $barang->nama }}</h2>
+                    <p class="text-gray-600 text-sm mb-3">{{ $barang->deskripsi }}</p>
+                    <p class="text-sm text-gray-500 mb-4">Stok: <span class="font-semibold">{{ $barang->stok }}</span></p>
                 </div>
 
                 <div class="mt-auto">
                     @auth
                         <a href="{{ route('keranjang.tambah', ['id' => $barang->id]) }}"
-                           class="w-full block text-center bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                           class="block text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded transition">
                             Tambah ke Keranjang
                         </a>
                     @else
-                        <a href="{{ route('login') }}"
-                           class="w-full block text-center bg-gray-500 text-white py-2 rounded hover:bg-gray-600">
-                            Login untuk Meminjam
+                        <a href="#"
+                           class="block text-center bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 rounded transition">
+                            Silahkan Login di Aplikasi ToolMate untuk meminjam barang!!!
                         </a>
                     @endauth
                 </div>
             </div>
-        @endforeach
+        @empty
+            <p class="col-span-full text-center text-gray-500">Tidak ada barang yang tersedia saat ini.</p>
+        @endforelse
     </div>
 </div>
+
 @endsection

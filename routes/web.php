@@ -34,7 +34,6 @@ Route::middleware('auth')->group(function () {
             'totalBarang' => Barang::count(),
             'totalPeminjaman' => Peminjaman::count(),
             'totalUser' => User::count(),
-            'peminjamanTerbaru' => Peminjaman::with('user', 'detail.barang')->latest()->take(5)->get(),
         ]);
     })->name('dashboard');
 
@@ -49,8 +48,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Form Peminjaman User
-    Route::get('/peminjaman', [UserPeminjamanController::class, 'create'])->name('peminjaman.form');
 });
 
 // ──────── Auth Routes (Laravel Breeze/Fortify/etc) ────────

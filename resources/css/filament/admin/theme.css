@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '../../../../vendor/filament/filament/resources/css/base.css';
+@import 'aos/dist/aos.css';
+
+/* Warna kustom tema teknik */
+:root {
+  --primary: #2e7d32; /* Hijau Teknik */
+  --primary-light: #60ad5e;
+  --primary-dark: #005005;
+  --bg-light: #f9fafb;
+  --bg-dark: #121212;
+  --text-light: #e5e5e5;
+  --text-dark: #1f2937;
+}
+
+/* Dark Mode Support */
+.dark {
+  --primary: #60ad5e;
+  --bg-light: #121212;
+  --text-light: #e5e5e5;
+}
+
+/* Tambahan styling kustom */
+body {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.dark body {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+}
+
+/* Tombol toggle */
+.toggle-darkmode {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 999;
+  background-color: var(--primary);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* AOS animasi default */
+[data-aos] {
+  transition: all 0.5s ease-in-out;
+}

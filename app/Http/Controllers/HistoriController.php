@@ -15,30 +15,45 @@ class HistoriController extends Controller
     }
 
     public function kembalikanBarang(Request $request)
-    {
-        $id = $request->input('id'); // ID histori
-        $histori = HistoriPeminjaman::find($id); // <- gunakan model yang benar
+{
+    $id = $request->input('id');
+    \Log::info('Request pengembalian barang masuk', ['id' => $id]);
 
-        if (!$histori) {
-            return response()->json(['success' => false, 'message' => 'Histori tidak ditemukan'], 404);
-        }
-
-        if ($histori->status == 'kembali') {
-            return response()->json(['success' => false, 'message' => 'Barang sudah dikembalikan'], 400);
-        }
-
-        // Update stok barang
-        $barang = Barang::find($histori->barang_id); // <- perhatikan: barang_id, bukan id_barang
-        if ($barang) {
-            $barang->stok += $histori->jumlah;
-            $barang->save();
-        }
-
-        // Update histori
-        $histori->status = 'kembali';
-        $histori->tanggal_kembali = now();
-        $histori->save();
-
-        return response()->json(['success' => true, 'message' => 'Barang berhasil dikembalikan']);
+    $histori = HistoriPeminjaman::find($id);
+    if (!$histori) {
+        \Log::warning('Histori tidak ditemukan', ['id' => $id]);
+        return response()->json(['success' => false, 'message' => 'Histori tidak ditemukan'], 404);
     }
+
+    if ($histori->status == 'kembali') {
+        \Log::info('Barang sudah dikembalikan sebelumnya', ['id' => $id]);
+        return response()->json(['success' => false, 'message' => 'Barang sudah dikembalikan'], 400);
+    }
+
+    // Update stok barang
+    $barang = Barang::find($histori->barang_id);
+    if ($barang) {
+        \Log::info('Stok sebelum pengembalian', ['barang_id' => $barang->id, 'stok' => $barang->stok]);
+        $barang->stok += $histori->jumlah;
+        $barang->save();
+        \Log::info('Stok setelah pengembalian', ['barang_id' => $barang->id, 'stok' => $barang->stok]);
+    } else {
+        \Log::warning('Barang tidak ditemukan', ['barang_id' => $histori->barang_id]);
+    }
+
+    // Update histori
+    $histori->status = 'kembali';
+    $histori->tanggal_kembali = now();
+    $histori->save();
+
+    \Log::info('Barang berhasil dikembalikan', [
+        'histori_id' => $histori->id,
+        'nim' => $histori->nim,
+        'barang_id' => $histori->barang_id,
+        'status' => $histori->status,
+    ]);
+
+    return response()->json(['success' => true, 'message' => 'Barang berhasil dikembalikan']);
+}
+
 }

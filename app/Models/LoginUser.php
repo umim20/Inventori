@@ -12,7 +12,9 @@ class LoginUser extends Authenticatable
 
     protected $table = 'login_users';
 
-    protected $fillable = ['nim', 'nama', 'password'];
+    protected $fillable = ['nim', 'nama', 'kelas', 'no_telepon', 'email', 'password'];
 
     protected $hidden = ['password'];
 }
+
+

@@ -45,7 +45,10 @@ class AdminPanelResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('nim')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('nama')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('created_at')->dateTime('d M Y - H:i'),
+                Tables\Columns\TextColumn::make('kelas')->label('Kelas'),
+                Tables\Columns\TextColumn::make('no_telepon')->label('No Telepon'),
+                Tables\Columns\TextColumn::make('email')->label('Email'),
+                Tables\Columns\TextColumn::make('created_at')->label('Dibuat')->dateTime('d M Y - H:i'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

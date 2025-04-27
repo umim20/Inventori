@@ -14,6 +14,9 @@ class RegisterLoginUser extends Page implements Forms\Contracts\HasForms
 
     public $nim;
     public $nama;
+    public $kelas;
+    public $no_telepon;
+    public $email;
     public $password;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-plus';
@@ -36,6 +39,20 @@ class RegisterLoginUser extends Page implements Forms\Contracts\HasForms
                 ->label('Nama')
                 ->required(),
 
+            Forms\Components\TextInput::make('kelas')
+                ->label('Kelas')
+                ->required(),
+
+            Forms\Components\TextInput::make('no_telepon')
+                ->label('No Telepon')
+                ->tel()
+                ->required(),
+
+            Forms\Components\TextInput::make('email')
+                ->label('Email')
+                ->email()
+                ->required(),
+
             Forms\Components\TextInput::make('password')
                 ->label('Password')
                 ->password()
@@ -47,11 +64,13 @@ class RegisterLoginUser extends Page implements Forms\Contracts\HasForms
     {
         $data = $this->form->getState();
 
-        // Pastikan nama kolom sesuai dengan yang ada di tabel login_users
         LoginUser::create([
-            'nim' => $data['nim'],  // Kolom harus sesuai dengan database
+            'nim' => $data['nim'],
             'nama' => $data['nama'],
-            'password' => Hash::make($data['password']),  // Hash password
+            'kelas' => $data['kelas'],
+            'no_telepon' => $data['no_telepon'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
         ]);
 
         Notification::make()
@@ -60,7 +79,6 @@ class RegisterLoginUser extends Page implements Forms\Contracts\HasForms
             ->success()
             ->send();
 
-        // Kosongkan form setelah sukses
-        $this->form->fill();
+        $this->form->fill(); // Kosongkan form
     }
 }
